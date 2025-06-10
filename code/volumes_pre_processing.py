@@ -5,7 +5,17 @@ from math import inf
 
 def stl_to_csv(mesh_path, output_path, pc_number=1000000, ds_voxel_size = 1.0, lx=-inf, ux=inf, ly=-inf, uy=inf, lz=-inf, uz=inf):
 
-    # --- Load STL file ---
+    """This function converts a 3D mesh stored in an STL file into a downsampled point cloud and exports the point coordinates to a CSV file.
+        Parameters:     
+        - mesh_path (str): Path to the input STL mesh file.
+        - output_path (str): Path where the output CSV file will be saved.
+        - pc_number (int, default=1,000,000): Number of points to uniformly sample from the mesh surface.
+        - ds_voxel_size (float, default=1.0): Voxel size used for point cloud downsampling.
+        - lx, ux (float): Lower and upper bounds along the x-axis to filter points (default: unbounded).
+        - ly, uy (float): Lower and upper bounds along the y-axis to filter points.
+        - lz, uz (float): Lower and upper bounds along the z-axis to filter points."""
+    
+    # Load STL file 
     mesh = o3d.io.read_triangle_mesh(mesh_path)
     mesh.compute_vertex_normals()
 
@@ -38,12 +48,12 @@ def stl_to_csv(mesh_path, output_path, pc_number=1000000, ds_voxel_size = 1.0, l
     return downsampled_pcd
 
 # Input Paths
-skin_mesh_path ="/home/ars_control/Desktop/robotic_assisted_pcnl/data/ct/3d_reconstruction/segmentations/body.stl"
-skeleton_mesh_path ="/home/ars_control/Desktop/robotic_assisted_pcnl/data/ct/3d_reconstruction/segmentations/skeleton.stl"
+skin_mesh_path ="/path/to/skin/surface.stl"
+skeleton_mesh_path ="/path/to/skeleton/surface.stl"
 
 # Output Paths
-skin_csv_path ="/home/ars_control/Desktop/robotic_assisted_pcnl/data/ct/3d_reconstruction/segmentations/skin.csv"
-skeleton_csv_path ="/home/ars_control/Desktop/robotic_assisted_pcnl/data/ct/3d_reconstruction/segmentations/skeleton.csv"
+skin_csv_path ="/path/to/skin/points.csv"
+skeleton_csv_path ="/path/to/skeleton/points.csv"
 
 # Convert
 skin_pc = stl_to_csv(skin_mesh_path, skin_csv_path, ux=80, uy=210, lz=35, uz=300)
